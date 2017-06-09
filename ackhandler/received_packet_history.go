@@ -7,6 +7,8 @@ import (
 	"github.com/lucas-clemente/quic-go/qerr"
 )
 
+// the receivedPacketHistory stores if a packet number has already been received
+// it does not store packet contents
 type receivedPacketHistory struct {
 	ranges *utils.PacketIntervalList
 

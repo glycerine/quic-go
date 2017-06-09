@@ -112,7 +112,7 @@ func (m *mockReceivedPacketHandler) GetAckFrame() *frames.AckFrame {
 func (m *mockReceivedPacketHandler) ReceivedPacket(packetNumber protocol.PacketNumber, shouldInstigateAck bool) error {
 	panic("not implemented")
 }
-func (m *mockReceivedPacketHandler) ReceivedStopWaiting(*frames.StopWaitingFrame) error {
+func (m *mockReceivedPacketHandler) SetLowerLimit(protocol.PacketNumber) {
 	panic("not implemented")
 }
 func (m *mockReceivedPacketHandler) GetAlarmTimeout() time.Time { return m.ackAlarm }
@@ -862,14 +862,6 @@ var _ = Describe("Session", func() {
 			hdr.PacketNumber = 5
 			err := sess.handlePacketImpl(&receivedPacket{publicHeader: hdr})
 			Expect(err).ToNot(HaveOccurred())
-			err = sess.handlePacketImpl(&receivedPacket{publicHeader: hdr})
-			Expect(err).ToNot(HaveOccurred())
-		})
-
-		It("handles packets smaller than the highest LeastUnacked of a StopWaiting", func() {
-			err := sess.receivedPacketHandler.ReceivedStopWaiting(&frames.StopWaitingFrame{LeastUnacked: 10})
-			Expect(err).ToNot(HaveOccurred())
-			hdr.PacketNumber = 5
 			err = sess.handlePacketImpl(&receivedPacket{publicHeader: hdr})
 			Expect(err).ToNot(HaveOccurred())
 		})

@@ -445,7 +445,7 @@ func (s *session) handleFrames(fs []frames.Frame) error {
 		case *frames.GoawayFrame:
 			err = errors.New("unimplemented: handling GOAWAY frames")
 		case *frames.StopWaitingFrame:
-			err = s.receivedPacketHandler.ReceivedStopWaiting(frame)
+			s.receivedPacketHandler.SetLowerLimit(frame.LeastUnacked)
 		case *frames.RstStreamFrame:
 			err = s.handleRstStreamFrame(frame)
 		case *frames.WindowUpdateFrame:
