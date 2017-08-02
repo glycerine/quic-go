@@ -60,7 +60,7 @@ var _ = Describe("float16", func() {
 		}
 		for _, testcase := range testcases {
 			b := &bytes.Buffer{}
-			WriteUint16(b, testcase.binary)
+			LittleEndian.WriteUint16(b, testcase.binary)
 			val, err := ReadUfloat16(b)
 			Expect(err).NotTo(HaveOccurred())
 			Expect(val).To(Equal(testcase.expected))
@@ -142,7 +142,7 @@ var _ = Describe("float16", func() {
 		for _, testcase := range testcases {
 			b := &bytes.Buffer{}
 			WriteUfloat16(b, testcase.decoded)
-			val, err := ReadUint16(b)
+			val, err := LittleEndian.ReadUint16(b)
 			Expect(err).NotTo(HaveOccurred())
 			Expect(val).To(Equal(testcase.encoded))
 		}

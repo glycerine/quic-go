@@ -23,7 +23,7 @@ const uFloat16MaxValue = ((uint64(1) << uFloat16MantissaEffectiveBits) - 1) << u
 
 // ReadUfloat16 reads a float in the QUIC-float16 format and returns its uint64 representation
 func ReadUfloat16(b io.ByteReader) (uint64, error) {
-	val, err := ReadUint16(b)
+	val, err := LittleEndian.ReadUint16(b)
 	if err != nil {
 		return 0, err
 	}
@@ -82,5 +82,5 @@ func WriteUfloat16(b *bytes.Buffer, value uint64) {
 		result = (uint16(value) + (exponent << uFloat16MantissaBits))
 	}
 
-	WriteUint16(b, result)
+	LittleEndian.WriteUint16(b, result)
 }
